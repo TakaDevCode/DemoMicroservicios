@@ -1,5 +1,6 @@
 package org.example.atencion.Service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.atencion.Client.PacienteClient;
 import org.example.atencion.DTO.PacienteDTO;
 import org.example.atencion.Model.Atencion;
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Slf4j
 @Service
 public class AtencionService {
 
@@ -26,7 +27,8 @@ public class AtencionService {
     }
 
     public List<Atencion> buscarPorIdPaciente(int idPaciente){
-        pacienteClient.getPaciente(idPaciente);
+        PacienteDTO paciente = pacienteClient.getPaciente(idPaciente);
+        log.info("Consultando atenciones del paciente {}", paciente.getNombres()+" "+paciente.getApellidos());
         return atencionRepository.findAllByIdPaciente(idPaciente);
     }
 

@@ -1,6 +1,7 @@
 package org.example.atencion.Controller;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.example.atencion.Model.Atencion;
 import org.example.atencion.Service.AtencionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/atenciones")
+@Slf4j
 public class AtencionController {
     @Autowired
     private AtencionService atencionService;
@@ -47,6 +49,7 @@ public class AtencionController {
 
     @PostMapping("/")
     public ResponseEntity<Atencion> agregar(@RequestBody @Valid Atencion atencion) {
+        log.info("Agregando atencion con fecha {}", atencion.getFechaAtencion());
         return ResponseEntity.ok(atencionService.agregar(atencion));
     }
 

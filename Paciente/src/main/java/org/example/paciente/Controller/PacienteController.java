@@ -1,5 +1,9 @@
 package org.example.paciente.Controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.example.paciente.Model.Paciente;
 import org.example.paciente.Service.PacienteService;
@@ -12,12 +16,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/pacientes")
+@Tag(name="API Paciente",description = "API para la gestion de pacientes")
 public class PacienteController {
 
     @Autowired
     private PacienteService pacienteService;
 
+
     @GetMapping("")
+    @Operation(summary ="Obtener todos los pacientes",description = "Endpoint permite consultar todos los pacientes")
+    @ApiResponse(responseCode="200",description = "Consulta exitosa , se entrega la lista de pacientes")
+    @ApiResponse(responseCode="204",description = "Consulta exitosa , pero no se encontraron datos")
     public ResponseEntity<List<Paciente>> getAllPacientes(){
         List<Paciente> listado = pacienteService.listarPacientes();
         if(listado.isEmpty()){
@@ -28,7 +37,8 @@ public class PacienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Paciente> getPacienteById(@PathVariable int id){
+    @Operation(summary = "Obtiene paciente segun su ID")
+    public ResponseEntity<Paciente> getPacienteById(@Parameter(description = "ID del paciente a consultar") @PathVariable int id){
         Paciente buscado = pacienteService.buscarPorId(id);
         if(buscado!=null){
             return new ResponseEntity<>(buscado, HttpStatus.OK);
@@ -38,6 +48,8 @@ public class PacienteController {
     }
 
     @PostMapping("/")
+    @Operation(summary = "Permite agregar paciente")
+    @ApiResponse(responseCode = "201",description = "Paciente agregado con exito en el sistema ")
     public ResponseEntity<Paciente> createPaciente(@RequestBody @Valid Paciente paciente){
         Paciente nuevo = pacienteService.agregarPaciente(paciente);
         if(nuevo!=null){
