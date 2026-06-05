@@ -34,9 +34,7 @@ public class Paciente {
     @Column(name = "apellidos", nullable = false, length = 100)
     private String apellidos;
 
-    @NotNull(message = "La fecha de nacimiento es obligatoria")
-    @Past(message = "La fecha de nacimiento debe ser una fecha pasada")
-    @Column(name = "fecha_nacimiento", nullable = false)
+    @Column(name = "fecha_nacimiento", nullable = true)
     private Date fechaNacimiento;
 
     @Email(message = "El correo no tiene formato válido")
